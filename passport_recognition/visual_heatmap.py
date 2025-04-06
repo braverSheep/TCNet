@@ -1,4 +1,4 @@
-"""可视化热力图"""
+
 import torch
 import numpy as np
 import cv2
@@ -46,10 +46,10 @@ data_transform = {
     "train": transforms.Compose([
                                  transforms.Resize((128, 128)),
                                  # transforms.RandomErasing(p=0.5, scale=(0.02, 0.33), ratio=(0.3, 3.3), value=0, inplace=False),
-                                 # transforms.RandomResizedCrop(128),  # 随机裁剪，裁剪到224*224
+                                 # transforms.RandomResizedCrop(128), 
                                  transforms.ColorJitter(hue=0.5),
                                  # transforms.RandomRotation((-45,45)),
-                                 transforms.RandomHorizontalFlip(),  # 水平方向随机翻转
+                                 transforms.RandomHorizontalFlip(), 
                                  # transforms.RandomRotation((-45, 45)),                                                            
                                  transforms.ToTensor(),
                                  transforms.Normalize(mean=[0.485, 0.456, 0.406],
@@ -105,11 +105,11 @@ features_grad = None
 #             use_cuda=use_cuda
 #            )
 
-# target_category = None # 可以指定一个类别，或者使用 None 表示最高概率的类别
+# target_category = None 
 # grayscale_cam = cam(input_tensor=inputs, targets=target_category)
 # features = grayscale_cam[0, :]
 # print(features)
-# # # 将 grad-cam 的输出叠加到原始图像上
+
 # # image_rgb = image.resize((224,224))
 # # image_rgb = np.array(image_rgb)
 # # def normalization(data):
@@ -118,7 +118,7 @@ features_grad = None
 
 # # image_rgb = normalization(image_rgb)
 # # visualization = show_cam_on_image(image_rgb, grayscale_cam)
-# # 保存可视化结果
+
 
 # image = cv2.imread(image_path)
 # visualization = cv2.resize(features, (image.shape[1], image.shape[0]))
@@ -159,22 +159,22 @@ for i in range(pooled_grads.size()[0]):
     features[i, ...] *= pooled_grads[i, ...]
 
 
-# 读取原始图像
+
 image = cv2.imread(image_path)
 
-# 调整 heatmap 的尺寸
+
 heatmap = cv2.resize(heatmap, (image.shape[1], image.shape[0]))
 heatmap = np.uint8(255 * heatmap)
 
-# 应用颜色映射，将 heatmap 转换为彩色
+
 heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
 
-# 将 heatmap 叠加到原始图像上，0.4 是叠加的强度因子
+
 superimposed_image = heatmap * 0.4 + image
 
-# 保存叠加后的图像
+
 cv2.imwrite(superimposed_image_path, superimposed_image)
 
-# 显示叠加后的图像
+
 # cv2.imshow("heatmap", superimposed_image)
 # cv2.waitKey(0)
