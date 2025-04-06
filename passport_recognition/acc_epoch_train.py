@@ -60,7 +60,7 @@ plt.xlabel('Epoch', fontsize=15)
 plt.ylabel('Loss', fontsize=15)
 plt.xticks(fontsize=12)
 plt.yticks(fontsize=12)
-plt.ylim(0, 2)  # 设置纵坐标范围为 0 到 5
+plt.ylim(0, 2)  
 plt.grid(True)
 plt.legend(fontsize=12)
 
