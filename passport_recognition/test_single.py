@@ -17,7 +17,7 @@ from model5 import *
 from sklearn import metrics
 import cv2
 import os
-# 标签，0:Surprise, 1:Fear, 2:Disgust, 3:Happiness, 4:Sadness, 5:Anger, 6:Neutral
+
 # ferplus 
 
 # read class_indict
@@ -45,12 +45,12 @@ def get_inputs(img_path):
 def predict(model, inputs):
     with torch.no_grad():
         # output = torch.squeeze(model(img))
-        # 记录开始时间
+        
         start_time = time.time()
         outputs = model(inputs)
-        # 记录结束时间
+       
         end_time = time.time()
-        # 计算推理时间
+        
         inference_time = end_time - start_time
         print(f"推理时间: {inference_time:.6f} 秒")
         probabilities = F.softmax(outputs, dim=1)
@@ -60,7 +60,7 @@ def predict(model, inputs):
 
     return index, value
 
-# 预测一张图像
+
 def main(model,img_path = './Confidence level/Transformer design.jpg'):#  Inkjet printing.png /Laster printing.png /Lithographic printing.png /Transformer design.jpg
     print(img_path)
     inputs = get_inputs(img_path)
@@ -83,45 +83,45 @@ def pre_write_txt(pred, file):
     print("-----------------预测结果已经写入文本文件--------------------")
 
 def plot_matrix(y_true, y_pred, labels_name, title=None, thresh=0.8, axis_labels=None, save_path=None):
-    # 使用sklearn生成混淆矩阵并归一化
+   
     cm = metrics.confusion_matrix(y_true, y_pred, labels=labels_name, sample_weight=None)
     cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
 
-    # 设置字体为 Times New Roman
+    
     pl.rcParams['font.family'] = 'Times New Roman'
 
-    # 绘制混淆矩阵
+    
     pl.imshow(cm, interpolation='nearest', cmap=pl.get_cmap('Blues'))
-    pl.colorbar()  # 绘制图例
+    pl.colorbar()  
 
-    # 图像标题
+    
     if title is not None:
         pl.title(title, fontdict={'family': 'Times New Roman', 'size': 16})
-    # 绘制坐标轴标签
+   
     num_local = np.array(range(len(labels_name)))
     if axis_labels is None:
         axis_labels = labels_name
-    pl.xticks(num_local, axis_labels, rotation=0, fontfamily='Times New Roman')  # x轴标签
-    pl.yticks(num_local, axis_labels, fontfamily='Times New Roman')  # y轴标签
+    pl.xticks(num_local, axis_labels, rotation=0, fontfamily='Times New Roman')  
+    pl.yticks(num_local, axis_labels, fontfamily='Times New Roman') 
     pl.ylabel('True label', fontdict={'family': 'Times New Roman', 'size': 14})
     pl.xlabel('Predicted label', fontdict={'family': 'Times New Roman', 'size': 14})
 
-    # 将百分比打印在相应的格子内，保留两位小数
+    
     for i in range(np.shape(cm)[0]):
         for j in range(np.shape(cm)[1]):
             value = cm[i][j] * 100
             pl.text(j, i, f"{value:.2f}%", ha="center", va="center",
                     color="white" if cm[i][j] > thresh else "black",
-                    fontdict={'family': 'Times New Roman', 'size': 10})  # 字体设置
+                    fontdict={'family': 'Times New Roman', 'size': 10}) 
 
-    # 如果提供了保存路径，则保存图片
+    
     if save_path is not None:
         pl.savefig(save_path, format='png', dpi=300, bbox_inches='tight')
-    # 显示
+    
     pl.show()
 
 
-# 测试整个测试集，通采用data loder测试
+
 validate_loader, val_num =  data_input.val_data(root_dir='../aug_xu_new/',batch_size=4)
 def test_acc(model):
     acc = 0.0
@@ -140,16 +140,16 @@ def test_acc(model):
          
             predict_y = outputs.max(1, keepdim=True)[1]
              
-            # # 为了保证标签的维度与网络输出的维度一样 方便后面的计算     
+            
             test_labels = test_labels.view_as(predict_y)
             # print(test_labels.shape)torch.Size([4, 1])
-            # 这一步必须保证标签与网络输出的维度是一样的才可计算，也就导致必须.view_as(predict_y)
-            predict_y=predict_y.to('cpu')                      #metrics无法使用cuda下的tensor
+           
+            predict_y=predict_y.to('cpu')                      
             test_labels=test_labels.to('cpu')
             pre=torch.cat([pre,predict_y],dim=0)
             lab=torch.cat([lab,test_labels],dim=0)
         
-        accurate=metrics.accuracy_score(y_true=lab,y_pred=pre)   #accuracy_score没有average参数
+        accurate=metrics.accuracy_score(y_true=lab,y_pred=pre)   
         precition=metrics.precision_score(y_true=lab,y_pred=pre,average='macro')
         reacall=metrics.recall_score(y_true=lab,y_pred=pre,average='macro')
         f1=metrics.f1_score(y_true=lab,y_pred=pre,average='macro')
@@ -161,7 +161,7 @@ def test_acc(model):
     print("\n模型的总参数量为: {:.2f}M".format(total/1e6))  
 
 
-# 测试某一个类别
+
 def class_acc():
     q = 0
     test_dir = 'G:/dataset/RAFDB/basic/Image/test/4/'
@@ -226,8 +226,8 @@ def get_model():
 if __name__ == '__main__':
     
     model = get_model()
-    # 测试单张图像并加上置信度
+   
     main(model)
-    # # 测试多张图像 + 混淆矩阵
+   
     # test_acc(model)
 
