@@ -63,7 +63,7 @@ class Attention(nn.Module):
         B, H, W, _ = x.shape # [8, 128, 32, 32]
         # qkv with shape (3, B, nHead, H * W, C)
         qkv = self.qkv(x)
-        qkv = qkv.reshape(B, H * W, 3, self.num_heads, -1).permute(2, 0, 3, 1, 4)# 这种做法是把通道的维度作为计算了，所有自注意力计算的是每个像素点之间的关系，有点空间上的信息了
+        qkv = qkv.reshape(B, H * W, 3, self.num_heads, -1).permute(2, 0, 3, 1, 4)
         # q, k, v with shape (B * nHead, H * W, C)
         q, k, v = qkv.reshape(3, B * self.num_heads, H * W, -1).unbind(0)
 
@@ -115,29 +115,29 @@ class PatchEmbed(nn.Module):
 class DynamicWeightingModule(nn.Module):
     def __init__(self, input_channels):
         super(DynamicWeightingModule, self).__init__()
-        self.global_avg_pool = nn.AdaptiveAvgPool2d(1)  # 全局平均池化层, 将 [B, C, H, W] 转换为 [B, C, 1, 1]
+        self.global_avg_pool = nn.AdaptiveAvgPool2d(1)  
         self.weight_generator = nn.Sequential(
-            nn.Linear(input_channels * 2, 128),  # 输入维度为局部和全局特征的连接结果
+            nn.Linear(input_channels * 2, 128),  
             nn.ReLU(),
-            nn.Linear(128, 2),  # 输出权重向量, 一个用于局部特征, 一个用于全局特征
-            nn.Softmax(dim=1)  # 通过Softmax生成1D权重
+            nn.Linear(128, 2),  
+            nn.Softmax(dim=1)  
         )
-        # self.fusing = nn.Conv2d(in_channels=input_channels * 2,out_channels=input_channels,stride=1,kernel_size=1,padding=0)#调试
+        # self.fusing = nn.Conv2d(in_channels=input_channels * 2,out_channels=input_channels,stride=1,kernel_size=1,padding=0)
 
     def forward(self, local_feature, global_feature):
-        # 对局部和全局特征进行全局平均池化, 将其从 [B, C, H, W] 变为 [B, C, 1, 1]
+       
         local_feature_pooled = self.global_avg_pool(local_feature).view(local_feature.size(0), -1)  # [B, C]
         global_feature_pooled = self.global_avg_pool(global_feature).view(global_feature.size(0), -1)  # [B, C]
 
-        # 拼接池化后的局部和全局特征
+        
         combined_feature = torch.cat([local_feature_pooled, global_feature_pooled], dim=1)  # [B, 2*C]
 
-        # 动态生成权重
-        weights = self.weight_generator(combined_feature)  # [B, 2], 每个样本对局部和全局特征生成一个权重
+        
+        weights = self.weight_generator(combined_feature) 
        
         local_weight, global_weight = weights[:, 0].unsqueeze(1).unsqueeze(2).unsqueeze(3), weights[:, 1].unsqueeze(1).unsqueeze(2).unsqueeze(3)  # [B, 1, 1, 1]
 
-        # 根据权重加权局部和全局特征
+        
         local_feature = local_weight * local_feature
         global_feature = global_weight * global_feature
         # print('local_feature.shape',local_feature.shape)
@@ -154,16 +154,16 @@ class CNN_Tran(nn.Module):
         super(CNN_Tran,self).__init__()
 
         self.conv = nn.Conv2d(in_channels=3,out_channels=64,kernel_size=3,stride=2,padding=1)
-        self.patch_embed = PatchEmbed(# 利用二维卷积进行embedding？是的 
+        self.patch_embed = PatchEmbed(
             kernel_size=(patch_size, patch_size),
             stride=(patch_size, patch_size),
             in_chans=3,
             embed_dim=embed_dim
         )
-        # 初始化一个形状为 [1, H, W, C] 的可学习位置编码
+        
         self.pos_encoding = nn.Parameter(torch.randn(1, 64, 64, 64))
 
-        pretrained = True # 确定加载预训练好的
+        pretrained = True 
         resnet = models.resnet18(weights=ResNet18_Weights.DEFAULT if pretrained else None)
         self.layers = nn.Sequential(*list(resnet.children()))
         self.loc_block1 = self.layers[4]#64，64
@@ -188,7 +188,7 @@ class CNN_Tran(nn.Module):
         x = x.type(torch.float)
         # block1
         cnn_out = self.conv(x)
-        #patch_out = self.patch_embed(x) + positional_encoding_2d(x.shape[0], 64, 64, 64).to('cuda')# 将位置编码加到输入张量上
+        #patch_out = self.patch_embed(x) + positional_encoding_2d(x.shape[0], 64, 64, 64).to('cuda')
         patch_out = self.patch_embed(x) + self.pos_encoding.expand(x.shape[0], -1, -1, -1)
 
         loc_out = self.loc_block1(cnn_out)
@@ -225,9 +225,9 @@ class CNN_Tran(nn.Module):
         # print(out_fuse.shape)
 
         feature_maps = out_fuse
-        # # 取一半的特征做预测
+       
         # out_fuse = out_fuse[:, 0:256,:,:]
-        # 做最后输出
+        
         pool_features = self.global_avg_pool(out_fuse)
         pool_features = pool_features.view(pool_features.size(0), -1)
         clss_out = self.chassifier(pool_features)
@@ -246,11 +246,11 @@ if __name__ == '__main__':
     print('end-start=',end-start)
     print(net)
     # print(y.shape)
-    # # 输出模型的参数量 计算量
+   
     # from ptflops import get_model_complexity_info
 
-    # # 计算模型的 FLOPs 和参数数量 
+    
     # macs, params = get_model_complexity_info(net, (3, 128, 128), as_strings=True, print_per_layer_stat=True) # True，则输出的 FLOPs（MACs）和参数数量会以字符串格式返回
 
     # print(f"FLOPs: {macs}")
-    # print(f"参数数量: {params}")
+    
