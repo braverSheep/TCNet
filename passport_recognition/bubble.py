@@ -29,19 +29,19 @@ def generate_bubble_image():
     # Set font to Times New Roman
     plt.rcParams['font.family'] = 'Times New Roman'
 
-    # 画图
+    
     fig, ax = plt.subplots(figsize=(17, 9), dpi=100, facecolor="w")
     pubble = ax.scatter(x=FLOPs, y=values, s=circle_area_func(Params, p=p, k=k), c=list(range(len(model_names))), cmap=plt.cm.get_cmap("ocean"), lw=3, ec="white", vmin=0, vmax=11)
     center = ax.scatter(x=FLOPs[:-1], y=values[:-1], s=30, c="#e6e6e6")
     ours_ = ax.scatter(x=FLOPs[-1:], y=values[-1:], s=60, marker="*", c="red")
 
-    # 添加文字
+    
     for i in range(len(FLOPs)):
         ax.annotate(model_names[i], xy=(FLOPs[i], values[i]), xytext=(xtext_positions[i], ytext_positions[i]), fontsize=16, fontweight=(200 if i < (len(FLOPs)-1) else 600))
     for i, legend_size in enumerate(legend_sizes):
         ax.text(legend_xpositions[i], legend_yposition, str(legend_size) + "M", fontsize=25, fontweight=200)
 
-    # 添加图例
+    
     kw = dict(prop="sizes", num=legend_sizes, color="#e6e6e6", fmt="{x:.0f}", linewidth=None, markeredgewidth=2, markeredgecolor="green", func=lambda s: np.ceil(inverse_circle_area_func(s, p=p, k=k)))
     legend = ax.legend(*pubble.legend_elements(**kw), bbox_to_anchor=(0.5, 0.15), title="Parameters (Params) / M", ncol=6, fontsize=0, title_fontsize=0, handletextpad=100, frameon=False)
 
@@ -61,6 +61,6 @@ def generate_bubble_image():
 
 if __name__ == '__main__':
 
-    # 生成气泡图
+ 
     generate_bubble_image()
 
