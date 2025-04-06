@@ -3,18 +3,18 @@ from torchvision import transforms, datasets, utils
 import json
 from PIL import Image,ImageFile
 
-ImageFile.LOAD_TRUNCATED_IMAGES = True #这个参数可以避免加载失败，但加载的图像可能不是完整的，因此在进行后续的操作时需要谨慎，特别是如果图像质量对你的任务非常重要
+ImageFile.LOAD_TRUNCATED_IMAGES = True 
 # transforms.transforms.RandomErasing(p=0.3, scale=(0.08, 0.33), ratio=(0.3, 3.3), value=0, inplace=False)
 
-# 数据预处理，定义data_transform这个字典
+
 data_transform = {
     "train": transforms.Compose([
                                  transforms.Resize((128, 128)),
                                  # transforms.RandomErasing(p=0.5, scale=(0.02, 0.33), ratio=(0.3, 3.3), value=0, inplace=False),
-                                 # transforms.RandomResizedCrop(128),  # 随机裁剪，裁剪到224*224
+                                 # transforms.RandomResizedCrop(128),  
                                  transforms.ColorJitter(hue=0.5),
                                  # transforms.RandomRotation((-45,45)),
-                                 transforms.RandomHorizontalFlip(),  # 水平方向随机翻转 让同一张图像在不同的训练批次中有时是原始的，有时是翻转的，从而帮助模型学习到翻转不变性。
+                                 transforms.RandomHorizontalFlip(), 
                                  # transforms.RandomRotation((-45, 45)),                                                            
                                  transforms.ToTensor(),
                                  transforms.Normalize(mean=[0.485, 0.456, 0.406],
@@ -46,18 +46,17 @@ class ImageFolderWithPaths(datasets.ImageFolder):
 def train_data(root_dir,batch_size):
     train_dataset = datasets.ImageFolder(root=root_dir + "train",transform=data_transform["train"])
     train_data_num = len(train_dataset)
-    flower_list = train_dataset.class_to_idx  # 获取分类的名称所对应的索引，即{'daisy':0, 'dandelion':1, 'roses':2, 'sunflower':3, 'tulips':4}
-    cla_dict = dict((val, key) for key, val in flower_list.items())  # 遍历获得的字典，将key和value反过来，即key变为0，val变为daisy
-    # 将key和value反过来的目的是，预测之后返回的索引可以直接通过字典得到所属类别
+    flower_list = train_dataset.class_to_idx  
+    cla_dict = dict((val, key) for key, val in flower_list.items()) 
+    
     # write dict into json file
     json_str = json.dumps(cla_dict, indent=4)
-    with open('class_indices.json', 'w') as json_file:  # 保存入json文件
+    with open('class_indices.json', 'w') as json_file: 
         json_file.write(json_str)
     train_loader = torch.utils.data.DataLoader(train_dataset,
                                             batch_size=batch_size, shuffle=True,
                                             num_workers=0)
-    return train_loader,train_data_num,train_dataset.imgs # train_dataset.imgs包含了所有图像路径和类别标签的元组列表元组 (image_path, class_index)
-
+    return train_loader,train_data_num,train_dataset.imgs
 def val_data(root_dir,batch_size):
     validate_dataset = datasets.ImageFolder(root=root_dir + "test",transform=data_transform["val"])
     val_data_num = len(validate_dataset)
