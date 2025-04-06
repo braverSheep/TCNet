@@ -31,21 +31,21 @@ def get_model():
     model.eval()
     return model
     
-# 单张预测
+
 def predict_one(model,img_path = "../tulips.jpg"):
     # load image
     img = Image.open(img_path)
     # [N, C, H, W]
-    img = data_transform(img)  # 预处理的时候已经将channel这个维度提到最前面
+    img = data_transform(img)  
     # expand batch dimension
-    img = torch.unsqueeze(img, dim=0)  # 在最前面增加一个batch维度
+    img = torch.unsqueeze(img, dim=0)  
     with torch.no_grad():
         # predict class
         # model.to(device)
-        output = torch.squeeze(model(img))  # 将batch维度压缩掉
+        output = torch.squeeze(model(img)) 
         # print(output.shape)
-        predict = torch.softmax(output, dim=0)  # 变成概率分布
-        predict_cla = int(torch.argmax(predict).numpy())  # 获得最大概率处的索引值
+        predict = torch.softmax(output, dim=0)  
+        predict_cla = int(torch.argmax(predict).numpy())  
     
     # print(class_indict[str(predict_cla)], predict[predict_cla].item())
     return predict_cla,class_indict[str(predict_cla)]
@@ -53,7 +53,7 @@ def predict_one(model,img_path = "../tulips.jpg"):
 # model = get_model()
 # index,true_lable = predict(model)
 # print(index,true_lable)
-# 以下都是用单张的方式预测整个测试集
+
 def get_inputs(img_path):
     image = Image.open(img_path)
     inputs = data_transform(image)
@@ -69,7 +69,7 @@ def predict(model, inputs):
 
     return index
 
-# 预测一张图像
+
 def main(model,img_path):
     inputs = get_inputs(img_path)
     index= predict(model, inputs)
@@ -97,7 +97,7 @@ def input_data(test_dir):
 #     model.eval()
 #     return model
 
-#通过一张张图像预测（单独读取）
+
 def predice_testset(model):
     n = 0
     imgs, true_labels = input_data(test_dir='../aug_xu_new/test/')
