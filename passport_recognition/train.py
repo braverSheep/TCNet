@@ -52,7 +52,7 @@ print(len(train_loader))
 validate_loader, val_num = data_input.val_data(data_dir,2)
 
 net = CNN_Tran(img_size=128, patch_size=2, embed_dim=64, num_class=4).to(device)
-# net = models.ResNet18().to(device) # 可能还要重新跑一下
+# net = models.ResNet18().to(device) 
 # net = model1.CNN(img_size=128, patch_size=2, embed_dim=64, num_class=4).to(device)
 # net = models.vgg16(pretrained=True)
 # net = CNN_Tran_parallel(img_size=128, patch_size=2, embed_dim=64, num_class=4).to(device)
@@ -66,7 +66,7 @@ writer=SummaryWriter()
 # loss_function = nn.CrossEntropyLoss()
 loss_function = FocalLoss()
 
-pata = list(net.parameters())  # 查看net内的参数
+pata = list(net.parameters())  
 
 #optimizer = optim.Adam(net.parameters(), lr=0.0001)
 optimizer = optim.SGD(net.parameters(), lr=0.0003, momentum=0.9)##0.0003
@@ -85,7 +85,7 @@ if is_recovery:
     print("-------- 模型恢复训练成功-----------")
     save_path = './pretrain_{}_AlexNet.pth'.format(pre_train_model.split('.')[0])
 
-# 写入文本
+
 def pre_write_txt(pred, file):
     f = open(file, 'a', encoding='utf-8')
     f.write(str(pred))
@@ -100,15 +100,15 @@ best_f1=0.0
 for epoch in tqdm(range(100)):
    
     # train
-    net.train()  # 在训练过程中调用dropout方法
+    net.train()  
     running_loss = 0.0
-    t1 = time.perf_counter()  # 统计训练一个epoch所需时间
+    t1 = time.perf_counter() 
     # print('star')
     tra_acc = 0.0
     for step,data in enumerate(train_loader, start=0):
         # print(step)
 
-        # 这个时候的标签还是数字 不是onehot
+       
         images, labels = data
         # print(labels)
         optimizer.zero_grad()
@@ -133,7 +133,7 @@ for epoch in tqdm(range(100)):
     writer.add_scalar('acc', tra_acc / tra_num, epoch)
     writer.add_scalar('loss', running_loss / step, epoch)
     # validate
-    net.eval()  # 在测试过程中关掉dropout方法，不希望在测试过程中使用dropout
+    net.eval()  
     acc = 0.0  # accumulate accurate number / epoch
     pre=torch.tensor([])
     lab=torch.tensor([])
@@ -142,15 +142,15 @@ for epoch in tqdm(range(100)):
             test_images, test_labels = data_test
             test_labels_len = len(test_labels)
             outputs = net(test_images.to(device))
-            outputs=outputs.to('cpu')                      #metrics无法使用cuda下的tensor
+            outputs=outputs.to('cpu')                      
             test_labels=test_labels.to('cpu')
-            _,predict_y = torch.max(outputs, dim=1)       #取torch.max_return的index
+            _,predict_y = torch.max(outputs, dim=1)       
             # acc += (predict_y == test_labels.to(device)).sum().item()
             pre=torch.cat([pre,predict_y],dim=0)
             lab=torch.cat([lab,test_labels],dim=0)
 
         # accurate_test = acc / val_num
-        accurate_test=metrics.accuracy_score(y_true=lab,y_pred=pre)   #accuracy_score没有average参数
+        accurate_test=metrics.accuracy_score(y_true=lab,y_pred=pre)  
         precition_test=metrics.precision_score(y_true=lab,y_pred=pre,average='macro')
         reacall_test=metrics.recall_score(y_true=lab,y_pred=pre,average='macro')
         f1_test=metrics.f1_score(y_true=lab,y_pred=pre,average='macro')
