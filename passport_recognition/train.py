@@ -52,10 +52,6 @@ print(len(train_loader))
 validate_loader, val_num = data_input.val_data(data_dir,2)
 
 net = CNN_Tran(img_size=128, patch_size=2, embed_dim=64, num_class=4).to(device)
-# net = models.ResNet18().to(device) 
-# net = model1.CNN(img_size=128, patch_size=2, embed_dim=64, num_class=4).to(device)
-# net = models.vgg16(pretrained=True)
-# net = CNN_Tran_parallel(img_size=128, patch_size=2, embed_dim=64, num_class=4).to(device)
 print('CNN')
 
 pre_train_model = 'AlexNet.pth'
