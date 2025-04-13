@@ -21,24 +21,25 @@ Only a basic environment setup is needed to implement our method.
 Download all files from our repo. The following shows the basic folder structure.
 
 ```text
-data
-├── test_data
-├── train_data
-lowlight_test.py      # testing code
-lowlight_train.py     # training code
-model.py              # the proposed network
-dataloader.py
-Metric
-├── akh_brisque.py
-├── BRISQUE.py
-├── eff.py
-├── ref.py
-├── SPAQ.py
-model_parameter
-├── Epoch99.pth       # A pre-trained model (Epoch99.pth)
-snapshots_epochs
-```
 
+├── Confidence level
+├── Grad # testing code
+├── Model parameters # training code
+│   ├── savedmodel_CNN_Tran_entropy0.864.pth # ours
+│   └── savedmodel_CNN0.83.pth               # ablation_CNN
+|   └── savedmodel_parallel0.845.pth         # ablation_CNN_Transformer no DWM
+|   └── savedmodel_transformer0.455.pth      # ablation_Transformer
+├── Pictures           # the proposed network
+├── training_record
+├── bubble.py          # Generate bubble chart
+├── data_input.py      # the code for data processing
+model5.py              # the proposed model
+predict.py             # testing code
+test_single.py         # testing code
+train.py               # training code
+visual_heatmap.py      # the code for Grad-CAM visualization
+
+```
 
 
 ## Dataset
