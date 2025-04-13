@@ -29,15 +29,15 @@ Download all files from our repo. The following shows the basic folder structure
 │   └── savedmodel_CNN0.83.pth               # ablation_CNN
 |   └── savedmodel_parallel0.845.pth         # ablation_CNN_Transformer no DWM
 |   └── savedmodel_transformer0.455.pth      # ablation_Transformer
-├── Pictures           # the proposed network
+├── Pictures               # the proposed network
 ├── training_record
-├── bubble.py          # Generate bubble chart
-├── data_input.py      # the code for data processing
-model5.py              # the proposed model
-predict.py             # testing code
-test_single.py         # testing code
-train.py               # training code
-visual_heatmap.py      # the code for Grad-CAM visualization
+├── bubble.py              # Generate bubble chart
+├── data_input.py          # the code for data processing
+├── model5.py              # the proposed model
+├── predict.py             # testing code
+├── test_single.py         # testing code
+├── train.py               # training code
+├── visual_heatmap.py      # the code for Grad-CAM visualization
 
 ```
 
