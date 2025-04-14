@@ -58,5 +58,15 @@ If you wish to use this dataset, please cite the following:<br>
   publisher={MDPI}<br>
 }
 
+## Train
+'''text
+python train.py  
+'''
+
+## Test
+'''text
+python predict.py 
+'''
+
 ## Contact
 If you have any questions, please contact Yuanlun Xie at:[fengyuxiexie@163.com](fengyuxiexie@163.com)
