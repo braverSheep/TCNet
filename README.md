@@ -6,7 +6,7 @@ This work is being submitted to the journal “The Visual Computer” for public
 Verification of passport authenticity is particularly important for global security and border management. The recognition of passport background textures is one of the key technologies for determining the authenticity of passports. This work proposes a complementary CNN and Transformer framework, namely TCNet, for the recognition of passport background textures. The framework uses CNN to extract local features of the background texture of the passport, uses Transformers to model the global features of the texture, and finally uses a dynamic weighting module (DWM) to fuse the features of the two, ultimately improving the performance of classifying the background texture of the passport.
 
 ## Pytorch
-We used Pytorch for the implementation of our code
+We used Pytorch for the implementation of our code.
 
 ## Requirements
 1. Python 3.11
@@ -29,7 +29,7 @@ Download all files from our repo. The following shows the basic folder structure
 │   └── savedmodel_CNN0.83.pth               # ablation_CNN
 |   └── savedmodel_parallel0.845.pth         # ablation_CNN_Transformer no DWM
 |   └── savedmodel_transformer0.455.pth      # ablation_Transformer
-├── Pictures               # the proposed network
+├── Pictures               
 ├── training_record
 ├── bubble.py              # Generate bubble chart
 ├── data_input.py          # the code for data processing
