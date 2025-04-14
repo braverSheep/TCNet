@@ -59,14 +59,14 @@ If you wish to use this dataset, please cite the following:<br>
 }
 
 ## Train
-'''text
+```text
 python train.py  
-'''
+```
 
 ## Test
-'''text
+```text
 python predict.py 
-'''
+```
 
 ## Contact
 If you have any questions, please contact Yuanlun Xie at:[fengyuxiexie@163.com](fengyuxiexie@163.com)
