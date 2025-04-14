@@ -66,6 +66,13 @@ python train.py
 ```text
 python predict.py 
 ```
+## Cite
+@article{wang2025tic,
+  title={Tic action recognition for children tic disorder with end-to-end video semi-supervised learning},<br>
+  author={Maoqin Tian, Lin Tang, JiaFeng Xu Yibo Zhang, Yong Yang, Lingpei Zeng, Eryang Chen, Yuanlun Xie},<br>
+  journal={The Visual Computer},<br>
+  publisher={Springer}<br>
+}
 
 ## Contact
 If you have any questions, please contact Yuanlun Xie at:[fengyuxiexie@163.com](fengyuxiexie@163.com)
