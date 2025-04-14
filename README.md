@@ -34,7 +34,6 @@ Download all files from our repo. The following shows the basic folder structure
 ├── bubble.py              # Generate bubble chart
 ├── data_input.py          # the code for data processing
 ├── model5.py              # the proposed model
-├── predict.py             # testing code
 ├── test_single.py         # testing code
 ├── train.py               # training code
 ├── visual_heatmap.py      # the code for Grad-CAM visualization
