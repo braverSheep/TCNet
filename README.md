@@ -66,13 +66,6 @@ python train.py
 ```text
 python predict.py 
 ```
-## Maybe for Citing
-@article{wang2025tic,
-  title={Hybrid CNN-Transformer Framework with Dynamic Feature Fusion for Enhanced Passport Background Texture Classification},<br>
-  author={Maoqin Tian, Lin Tang, JiaFeng Xu Yibo Zhang, Yong Yang, Lingpei Zeng, Eryang Chen, Yuanlun Xie},<br>
-  journal={The Visual Computer},<br>
-  publisher={Springer}<br>
-}
 
 ## Contact
 If you have any questions, please contact Yuanlun Xie at:[fengyuxiexie@163.com](fengyuxiexie@163.com)
