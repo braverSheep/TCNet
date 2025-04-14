@@ -66,9 +66,9 @@ python train.py
 ```text
 python predict.py 
 ```
-## Cite
+## Maybe for Citing
 @article{wang2025tic,
-  title={Tic action recognition for children tic disorder with end-to-end video semi-supervised learning},<br>
+  title={Hybrid CNN-Transformer Framework with Dynamic Feature Fusion for Enhanced Passport Background Texture Classification},<br>
   author={Maoqin Tian, Lin Tang, JiaFeng Xu Yibo Zhang, Yong Yang, Lingpei Zeng, Eryang Chen, Yuanlun Xie},<br>
   journal={The Visual Computer},<br>
   publisher={Springer}<br>
