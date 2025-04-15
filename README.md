@@ -1,7 +1,7 @@
 ## TCNet: Hybrid CNN-Transformer Framework with Dynamic Feature Fusion for Enhanced Passport Background Texture Classification
 ### Maoqin Tian, Lin Tang, JiaFeng Xu, Yibo Zhang, Yong Yang, Lingpei Zeng, Eryang Chen, Yuanlun Xie
 ---
-This work is being submitted to the journal “The Visual Computer” for publication
+This work is being submitted to the journal “The Visual Computer” for peer review.
 ===
 Verification of passport authenticity is particularly important for global security and border management. The recognition of passport background textures is one of the key technologies for determining the authenticity of passports. This work proposes a complementary CNN and Transformer framework, namely TCNet, for the recognition of passport background textures. The framework uses CNN to extract local features of the background texture of the passport, uses Transformers to model the global features of the texture, and finally uses a dynamic weighting module (DWM) to fuse the features of the two, ultimately improving the performance of classifying the background texture of the passport.
 
