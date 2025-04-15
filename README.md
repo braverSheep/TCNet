@@ -47,7 +47,7 @@ Download all files from our repo. The following shows the basic folder structure
 A passport backing dataset with four main types of backing: 'Transformed design', 'Laser printing', 'Lithographic printing' and 'Inkjet printing', with labels assigned as 0, 1, 2, and 3, respectively, is developed . In particular, 'Transformed design' and 'lithographic printing' are the shading expressions of real passports, and the remaining two are the shading expressions of fake passports. In our study, the dataset was split into a training set and a test set in an 8:2 ratio. <br>
 To enhance the diversity and richness of the dataset, data augmentation techniques were applied, improving the model's generalization ability. We augmented the captured images with random horizontal flips, vertical flips, random rotations, color dithering, random affine transformations, and perspective transformations, which increased the number of samples per category in the training set to 1000, and 250 samples per category in the test set. The dataset can be obtained from website :[passport backing dataset](https://pan.baidu.com/s/1oUYlijtmW79if1SRuU04sg) <br>
 
-If you wish to use this dataset, please fill out the corresponding [application form](https://pan.baidu.com/s/1oUYlijtmW79if1SRuU04sg) to obtain the password and send it to fengyuxiexie@163.com.<br>
+If you wish to use this dataset, please fill out the corresponding [application form](https://pan.baidu.com/s/12oWHLoHKN1vc1OHD4pk0rw?pwd=qwgp) to obtain the password and send it to fengyuxiexie@163.com.<br>
 cite the following:<br>
 @article{xu2024pbnet,<br>
   title={PBNet: Combining Transformer and CNN in Passport Background Texture Printing Image Classification},<br>
